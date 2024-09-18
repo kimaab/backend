@@ -12,6 +12,8 @@ import me.hello.backend.bbs.dto.response.CreateBbsResponse;
 import me.hello.backend.bbs.dto.response.DeleteBbsResponse;
 import me.hello.backend.bbs.dto.response.UpdateBbsResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,7 +40,10 @@ public class BbsController {
 	@GetMapping
 	public ResponseEntity<BbsListResponse> getBbsList(@ModelAttribute BbsListRequest req){
 		System.out.println("BbsController getBbsList() " + new Date());
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails)principal;
 
+		String username = userDetails.getUsername();
 		return ResponseEntity.ok(service.getBbsList(req));
 	}
 

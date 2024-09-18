@@ -9,7 +9,7 @@
     <version>2.7.2</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>me.hellonayeon</groupId>
+  <groupId>me.hello</groupId>
   <artifactId>hello-sample</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>hello-sample</name>
@@ -20,7 +20,7 @@
   <dependencies>
 
     <dependency>
-      <groupId>me.hellonayeon</groupId>
+      <groupId>me.hello</groupId>
       <artifactId>hello-sample</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
