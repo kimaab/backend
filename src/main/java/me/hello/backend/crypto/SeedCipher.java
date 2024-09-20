@@ -22,7 +22,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import me.hello.backend.crypto.keys.KeyValue;
-import net.e4.common.util.StringUtils;
+import me.hello.backend.util.StringUtils;
 
 /**
  * @packageName : net.e4.common.crypto
