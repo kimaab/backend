@@ -386,7 +386,7 @@ CREATE TABLE IF NOT EXISTS `read_history` (
   `bbs_seq` int(11) DEFAULT NULL,
   `id` varchar(50) DEFAULT NULL,
   `lastest_access_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
