@@ -21,7 +21,7 @@ USE `mysql`;
 -- 테이블 mysql.bbs 구조 내보내기
 DROP TABLE IF EXISTS `bbs`;
 CREATE TABLE IF NOT EXISTS `bbs` (
-  `seq` int(11) DEFAULT NULL,
+  `seq` int(11) DEFAULT NULL AUTO_INCREMENT PRIMARY KEY,
   `id` mediumtext DEFAULT NULL,
   `ref` decimal(8,0) DEFAULT NULL,
   `step` decimal(8,0) DEFAULT NULL,
@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS `bbs` (
   `created_at` timestamp NULL DEFAULT NULL,
   `del` decimal(1,0) DEFAULT NULL,
   `read_count` decimal(8,0) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='bbs 테이블\r\n';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='bbs 테이블\r\n';
+
 
 -- 테이블 mysql.column_stats 구조 내보내기
 DROP TABLE IF EXISTS `column_stats`;
@@ -61,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `bbs_seq` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `del` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
