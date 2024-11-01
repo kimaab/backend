@@ -41,9 +41,8 @@ public class BbsController {
 	public ResponseEntity<BbsListResponse> getBbsList(@ModelAttribute BbsListRequest req){
 		System.out.println("BbsController getBbsList() " + new Date());
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		UserDetails userDetails = (UserDetails)principal;
 
-		String username = userDetails.getUsername();
+		System.out.println("username "+principal);
 		return ResponseEntity.ok(service.getBbsList(req));
 	}
 

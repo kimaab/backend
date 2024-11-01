@@ -77,6 +77,7 @@ public class MemberService {
 		authenticate(req.getId(), req.getPwd());
 
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(req.getId());
+
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
 		return new LoginResponse(token, req.getId());
