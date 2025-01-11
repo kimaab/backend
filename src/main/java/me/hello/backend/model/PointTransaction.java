@@ -4,11 +4,21 @@ public class PointTransaction {
 
     private int transaction_id;
     private String member_id;
+    private String memberId;
     private String transaction_type;
     private int points;
     private String transaction_date;
 
     // getters and setters
+
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
 
     public int getTransaction_id() {
         return transaction_id;

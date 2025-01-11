@@ -11,9 +11,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/points")
+@CrossOrigin(origins = "http://localhost:8080")
 public class PointTransactionController {
     @Autowired
     private PointTransactionService pointTransactionService;
+
+    @GetMapping
+    @Operation(summary = "모든 사용자 포인트 거래 조회", description = "포인트 거래를 조회합니다.")
+    public List<PointTransaction> getTransactionById() {
+        return pointTransactionService.getTransactionById();
+    }
 
     @PostMapping
     @Operation(summary = "새 포인트 거래 생성", description = "새 포인트 거래(적립/사용)를 생성합니다.")

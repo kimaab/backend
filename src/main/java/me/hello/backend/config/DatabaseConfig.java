@@ -51,7 +51,7 @@ public class DatabaseConfig {
         Resource[] resources = new PathMatchingResourcePatternResolver()
                                 .getResources("classpath:sqls/*.xml");
         sqlSessionFactoryBean.setMapperLocations(resources);
-        sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);
+//        sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);
 
         return (SqlSessionFactory) sqlSessionFactoryBean.getObject();
     }

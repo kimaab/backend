@@ -37,34 +37,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String header = req.getHeader(HEADER_STRING);
         String userId = null;
         String authToken = null;
-        if (header != null && header.startsWith(TOKEN_PREFIX)) {
-            authToken = header.replace(TOKEN_PREFIX,"");
-            try {
-                userId = jwtTokenUtil.getUsernameFromToken(authToken);
-            } catch (IllegalArgumentException e) {
-                System.out.println("JwtAuthenticationFilter: token error (fail get user id) !");
-                e.printStackTrace();
-            } catch (ExpiredJwtException e) {
-                System.out.println("JwtAuthenticationFilter: expired token !");
-                e.printStackTrace();
-            } catch(SignatureException e){
-                System.out.println("JwtAuthenticationFilter: invalid member !");
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("JwtAuthenticationFilter: request that do not require authorization.");
-        }
-        if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
-
-            if (jwtTokenUtil.validateToken(authToken, userDetails)) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
-                logger.info("authenticated user " + userId + ", setting security context");
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-        }
+//        if (header != null && header.startsWith(TOKEN_PREFIX)) {
+//            authToken = header.replace(TOKEN_PREFIX,"");
+//            try {
+//                userId = jwtTokenUtil.getUsernameFromToken(authToken);
+//            } catch (IllegalArgumentException e) {
+//                System.out.println("JwtAuthenticationFilter: token error (fail get user id) !");
+//                e.printStackTrace();
+//            } catch (ExpiredJwtException e) {
+//                System.out.println("JwtAuthenticationFilter: expired token !");
+//                e.printStackTrace();
+//            } catch(SignatureException e){
+//                System.out.println("JwtAuthenticationFilter: invalid member !");
+//                e.printStackTrace();
+//            }
+//        } else {
+//            System.out.println("JwtAuthenticationFilter: request that do not require authorization.");
+//        }
+//        if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//
+//            UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
+//
+//            if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+//                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
+//                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+//                logger.info("authenticated user " + userId + ", setting security context");
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//            }
+//        }
 
         chain.doFilter(req, res);
     }

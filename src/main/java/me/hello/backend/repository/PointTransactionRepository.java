@@ -14,6 +14,9 @@ public interface PointTransactionRepository {
     @Select("SELECT * FROM point_transactions WHERE transaction_id = #{transaction_id}")
     PointTransaction findTransactionById(int id);
 
+    @Select("SELECT * FROM point_transactions")
+    List<PointTransaction> findTransaction();
+
     @Select("SELECT * FROM point_transactions WHERE member_id = #{member_id}")
     List<PointTransaction> findTransactionsByUserId(String member_id);
 }

@@ -22,4 +22,7 @@ public interface PointLimitRepository {
 
     @Delete("DELETE FROM point_limits WHERE limit_id = #{limit_id}")
     void deletePointLimit(int limit_id);
+
+    @Select("SELECT * FROM point_limits")
+    List<PointLimit> findPointLimits();
 }

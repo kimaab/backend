@@ -18,6 +18,10 @@ public class PointTransactionService {
         pointTransactionRepository.insertTransaction(transaction);
     }
 
+    public List<PointTransaction> getTransactionById() {
+        return pointTransactionRepository.findTransaction();
+    }
+
     public PointTransaction getTransactionById(int id) {
         return pointTransactionRepository.findTransactionById(id);
     }

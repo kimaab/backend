@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/point-limits")
+@CrossOrigin(origins = "http://localhost:8080")
 public class PointLimitController {
 
     @Autowired
@@ -21,6 +22,12 @@ public class PointLimitController {
     public PointLimit createPointLimit(@RequestBody PointLimit pointLimit) {
         pointLimitService.createPointLimit(pointLimit);
         return pointLimit;
+    }
+
+    @GetMapping
+    @Operation(summary = "포인트 사용 한도 조회", description = "포인트 사용 한도 조회")
+    public List<PointLimit> findPointLimits() {
+        return pointLimitService.findPointLimits();
     }
 
     @GetMapping("/{id}")
