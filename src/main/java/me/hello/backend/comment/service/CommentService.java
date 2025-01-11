@@ -41,7 +41,7 @@ public class CommentService {
     public CreateCommentResponse createComment(Integer seq, CreateCommentRequest req) {
         CreateCommentParam param = new CreateCommentParam(seq, req);
         dao.createComment(param);
-        return new CreateCommentResponse(param.getBbsSeq());
+        return new CreateCommentResponse(param.getSeq());
     }
 
     /* 댓글 삭제 */

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3 Circular Chart</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            background-color: #1c2a4a;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .category-label {
+            fill: white;
+            font-size: 12px;
+            text-anchor: middle;
+        }
+        .circle-text {
+            fill: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<script>
+    // SVG 크기 및 원 설정
+    const width = 500;
+    const height = 500;
+    const radius = 200;
+    const numSegments = 12; // 분할 수
+    const innerRadius = 90;
+    const pointRadius = 120; // Scatter points will be placed at this radius
+
+    // 각 섹터의 각도
+    const angle = (2 * Math.PI) / numSegments;
+
+    // 카테고리 배열
+    const categories = ["Family", "Loan", "Obituary", "Romance", "Financial", "Delivery",
+        "Lottery", "Rental", "Tech", "E-commerce", "Agency", "Recruit"];
+
+    // 색상 팔레트 설정
+    const colors = d3.schemeCategory10;
+
+    // SVG 생성
+    const svg = d3.select("body")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+    // 각 섹터 그리기
+    for (let i = 0; i < numSegments; i++) {
+        svg.append("path")
+            .attr("d", d3.arc()
+                .innerRadius(innerRadius)
+                .outerRadius(radius)
+                .startAngle(i * angle)
+                .endAngle((i + 1) * angle)
+            )
+            .attr("fill", colors[i % colors.length])
+            .attr("opacity", 0.8)
+            .attr("stroke", "#1c2a4a")
+            .attr("stroke-width", 2);
+
+        // 카테고리 레이블 추가
+        const labelAngle = i * angle + angle / 2;
+        const labelX = (radius + 20) * Math.cos(labelAngle);
+        const labelY = (radius + 20) * Math.sin(labelAngle);
+
+        svg.append("text")
+            .attr("x", labelX)
+            .attr("y", labelY)
+            .attr("class", "category-label")
+            .text(categories[i])
+            .attr("transform", `rotate(${(labelAngle * 180 / Math.PI) - 90} ${labelX} ${labelY})`);
+    }
+
+    // 중심 텍스트 추가 (WEEKLY와 TOTALS)
+    svg.append("text")
+        .attr("x", 0)
+        .attr("y", -10)
+        .attr("class", "circle-text")
+        .text("WEEKLY");
+
+    svg.append("text")
+        .attr("x", 0)
+        .attr("y", 20)
+        .attr("class", "circle-text")
+        .text("679");
+
+    svg.append("text")
+        .attr("x", 0)
+        .attr("y", 50)
+        .attr("class", "circle-text")
+        .text("TOTALS");
+
+    svg.append("text")
+        .attr("x", 0)
+        .attr("y", 70)
+        .attr("class", "circle-text")
+        .text("1,000");
+
+    // 점점 작아지는 7개의 원 추가
+    const decreasingRadii = [180, 165, 150, 135, 120, 105, 90]; // 원들의 반지름 배열
+
+    svg.selectAll(".concentric-circle")
+        .data(decreasingRadii)
+        .enter()
+        .append("circle")
+        .attr("class", "concentric-circle")
+        .attr("cx", 0)
+        .attr("fill","#243865")
+        .attr("cy", 0)
+        .attr("r", d => d)
+    .attr("fill", "none")
+        .attr("stroke", "#505f98")
+        .attr("stroke-width", 1);
+
+    // 산점도를 추가하는 함수 (각 영역과 원의 인덱스를 받도록 수정)
+    function addScatterPoint(category, radiusIndex) {
+        const categoryIndex = categories.indexOf(category);
+        if (categoryIndex === -1) return; // 카테고리가 존재하지 않으면 반환
+
+        // 섹터의 시작과 끝 각도
+        const startAngle = categoryIndex * angle;
+        const endAngle = (categoryIndex + 1) * angle;
+
+        // 섹터의 중앙 각도 계산
+        const centerAngle = startAngle + (endAngle - startAngle) / 2;
+
+        // 선택된 radiusIndex에 해당하는 반지름
+        const radiusForPoints = decreasingRadii[radiusIndex];
+
+        // 좌표 계산
+        const pointX = radiusForPoints * Math.cos(centerAngle);
+        const pointY = radiusForPoints * Math.sin(centerAngle);
+
+        // 산점도 추가
+        svg.append("circle")
+            .attr("cx", pointX)
+            .attr("cy", pointY)
+            .attr("r", 6)
+            .attr("fill", "orange")
+            .attr("opacity", 0.8);
+    }
+
+    // 예시로 각 영역의 중앙에 산점도 데이터 추가 (각각 다른 원 인덱스를 전달)
+    addScatterPoint("Agency", 0);  // 가장 바깥 원에 산점도 추가
+    addScatterPoint("Tech", 2);    // 중간 원에 산점도 추가
+    addScatterPoint("Financial", 4);  // 더 안쪽 원에 산점도 추가
+    addScatterPoint("Loan", 6);    // 가장 안쪽 원에 산점도 추가
+
+</script>
+</body>
+</html>

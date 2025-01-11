@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3.js 12개의 카테고리를 가진 큰 원</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1b2559; /* 어두운 배경색 */
+            color: #ffffff;
+        }
+        svg {
+            display: block;
+            margin: 0 auto;
+            background-color: #1b2559; /* svg 배경을 어두운 색으로 */
+        }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align: center; color: #ffffff;">Severity by Scam Type</h2>
+<p style="text-align: center; color: #ffffff;">2024.10.31 ~ 2024.11.06 14:32:26</p>
+<svg width="500" height="500"></svg>
+
+<script>
+    const width = 500;
+    const height = 500;
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const numSections = 12;
+    const radius = 230;
+    const labels = ["Recruit", "E-Commerce", "Agency", "Family", "Loan",
+        "Obituary", "Romance", "Fubancial", "Delivery", "Lottery", "Rental", "Tech"];
+    const radii = [185, 170, 155, 140, 125, 110, 95];
+
+    const svg = d3.select('svg')
+        .attr('width', width)
+        .attr('height', height);
+
+    // 큰 원 배경 색과 구분선
+    svg.append('circle')
+        .attr('cx', centerX)
+        .attr('cy', centerY)
+        .attr('r', radius)
+        .attr('fill', '#252f6d') // 큰 원의 배경색
+        .attr('stroke', '#505f98') // 외곽선 색상
+        .attr('stroke-width', 2);
+
+    svg.selectAll('circle.inner')
+        .data(radii)
+        .enter()
+        .append('circle')
+        .attr('cx', centerX)
+        .attr('cy', centerY)
+        .attr('r', (d, i) => d)
+        .attr('fill', (d, i) => i === radii.length - 1 ? '#1b2559' : '#252f6d')  // 제일 작은 원만 배경색과 동일하게
+        .attr('stroke', '#505f98')
+        .attr('stroke-width', 1);
+
+    const angleStep = (2 * Math.PI) / numSections;
+    const innerRadius = radii[radii.length - 1];
+
+    // 12개 섹션 구분선 및 라벨 추가
+    for (let i = 0; i < numSections; i++) {
+        const angle = i * angleStep;
+        const x1 = centerX + Math.cos(angle) * innerRadius;
+        const y1 = centerY + Math.sin(angle) * innerRadius;
+        const x2 = centerX + Math.cos(angle) * radius;
+        const y2 = centerY + Math.sin(angle) * radius;
+
+        svg.append('line')
+            .attr('x1', x1)
+            .attr('y1', y1)
+            .attr('x2', x2)
+            .attr('y2', y2)
+            .attr('stroke', '#707ea3')
+            .attr('stroke-width', 1.5);
+
+        // 섹션 라벨 추가
+        const labelX = centerX + Math.cos(angle - 6) * (radius - 20);
+        const labelY = centerY + Math.sin(angle - 6) * (radius - 20);
+
+        svg.append('text')
+            .attr('x', labelX)
+            .attr('y', labelY)
+            .attr('text-anchor', 'middle')
+            .attr('alignment-baseline', 'middle')
+            .text(labels[i])
+            .attr('fill', '#ffffff') // 흰색 라벨 텍스트
+            .attr('font-size', '12px')
+            .attr('font-weight', 'bold');
+    }
+
+    // 산점도를 표시할 함수
+    function addScatterPlot(category, radiusIndex, size = 5) {
+        const sectionIndex = labels.indexOf(category);
+        const angleStart = sectionIndex * angleStep;
+        const angleEnd = (sectionIndex + 1) * angleStep;
+        const radiusForPoints = radii[radiusIndex];
+
+        const middleAngle = (angleStart + angleEnd) / 2;
+
+        const x = centerX + Math.cos(middleAngle) * radiusForPoints;
+        const y = centerY + Math.sin(middleAngle) * radiusForPoints;
+
+        svg.append('circle')
+            .attr('cx', x)
+            .attr('cy', y)
+            .attr('r', size)
+            .attr('fill', '#f39c12');
+    }
+
+    // 예시 산점도 점 추가
+    addScatterPlot('Agency', 2, 6);
+    addScatterPlot('Family', 1, 8);
+    addScatterPlot('Loan', 4, 7);
+
+    // 가운데 흰색 원 안에 텍스트 추가
+    svg.append('text')
+        .attr('x', centerX)
+        .attr('y', centerY - 20)
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#c9c9e5')
+        .attr('font-size', '14px')
+        .attr('font-weight', 'bold')
+        .text('WEEKLY');
+
+    svg.append('text')
+        .attr('x', centerX)
+        .attr('y', centerY)
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#ffffff')
+        .attr('font-size', '24px')
+        .attr('font-weight', 'bold')
+        .text('679');
+
+    svg.append('text')
+        .attr('x', centerX)
+        .attr('y', centerY + 20)
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#c9c9e5')
+        .attr('font-size', '14px')
+        .attr('font-weight', 'bold')
+        .text('TOTALS');
+
+    svg.append('text')
+        .attr('x', centerX)
+        .attr('y', centerY + 40)
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#ffffff')
+        .attr('font-size', '24px')
+        .attr('font-weight', 'bold')
+        .text('1,000');
+</script>
+
+</body>
+</html>

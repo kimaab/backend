@@ -9,6 +9,8 @@ import me.hello.backend.member.dto.request.JoinRequest;
 import me.hello.backend.member.dto.request.LoginRequest;
 import me.hello.backend.member.dto.response.JoinResponse;
 import me.hello.backend.member.dto.response.LoginResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -25,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class MemberController {
-
+	private static final Logger log = LoggerFactory.getLogger(MemberController.class);
 	private final MemberService service;
 
 	public MemberController(MemberService service) {
@@ -37,6 +39,7 @@ public class MemberController {
 		System.out.println("UserController checkIdDuplicate " + new Date());
 
 		HttpStatus status = service.checkIdDuplicate(id);
+		log.info(status.toString());
 		return new ResponseEntity<>(status);
 	}
 

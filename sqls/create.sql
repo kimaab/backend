@@ -21,7 +21,7 @@ USE `mysql`;
 -- 테이블 mysql.bbs 구조 내보내기
 DROP TABLE IF EXISTS `bbs`;
 CREATE TABLE IF NOT EXISTS `bbs` (
-  `seq` int(11) DEFAULT NULL AUTO_INCREMENT PRIMARY KEY,
+  `seq` int(11) DEFAULT NULL,
   `id` mediumtext DEFAULT NULL,
   `ref` decimal(8,0) DEFAULT NULL,
   `step` decimal(8,0) DEFAULT NULL,
@@ -31,8 +31,7 @@ CREATE TABLE IF NOT EXISTS `bbs` (
   `created_at` timestamp NULL DEFAULT NULL,
   `del` decimal(1,0) DEFAULT NULL,
   `read_count` decimal(8,0) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='bbs 테이블\r\n';
-
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci COMMENT='bbs 테이블\r\n';
 
 -- 테이블 mysql.column_stats 구조 내보내기
 DROP TABLE IF EXISTS `column_stats`;
@@ -62,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `bbs_seq` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `del` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
@@ -387,7 +386,7 @@ CREATE TABLE IF NOT EXISTS `read_history` (
   `bbs_seq` int(11) DEFAULT NULL,
   `id` varchar(50) DEFAULT NULL,
   `lastest_access_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
@@ -663,3 +662,29 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `user` AS SELECT
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
+-- 멤버 테이블
+CREATE TABLE `member` (
+  `id` varchar(50) PRIMARY KEY,
+  `pwd` longtext,
+  `name` longtext,
+  `email` longtext
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+-- 포인트 거래 내역 테이블
+CREATE TABLE point_transactions (
+    transaction_id INT AUTO_INCREMENT PRIMARY KEY,
+    member_id VARCHAR(50),
+    transaction_type ENUM('earn', 'use') NOT NULL,
+    points INT NOT NULL,
+    transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (member_id) REFERENCES `member`(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+-- 포인트 사용 한도 테이블
+CREATE TABLE point_limits (
+    limit_id INT AUTO_INCREMENT PRIMARY KEY,
+    member_id VARCHAR(50),
+    month_year VARCHAR(7) NOT NULL, -- 예: '2025-01'
+    total_used_points INT NOT NULL DEFAULT 0,
+    FOREIGN KEY (member_id) REFERENCES `member`(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;

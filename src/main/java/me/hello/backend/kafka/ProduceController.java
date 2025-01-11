@@ -30,6 +30,8 @@ public class ProduceController {
 
         this.kafkaTemplate.send("wool_kafka_topic2", generatedString);
 
+        this.kafkaTemplate.send("wool_kafka_topic3", generatedString);
+
         return "success";
     }
 }

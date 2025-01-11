@@ -17,7 +17,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.OAS_30)
             .useDefaultResponseMessages(false)
             .select()
-            .apis(RequestHandlerSelectors.basePackage("me.hello.backend"))
+            .apis(RequestHandlerSelectors.basePackage("me.hello.backend.controller"))
             .paths(PathSelectors.any())
             .build()
             .apiInfo(apiInfo());
@@ -25,8 +25,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-            .title("BBS API")
-            .description("게시판 백엔드 애플리케이션 API 명세서")
+            .title("포인트 사용거래API")
+            .description("포인트 사용거래 백엔드 애플리케이션 API 명세서")
             .version("v0.0.1")
             .build();
     }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Highcharts 파이 차트 안에 파이 차트</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+</head>
+<body>
+<h2>Highcharts 파이 차트 안에 파이 차트</h2>
+<div id="container" style="width:100%; height:500px;"></div>
+
+<script>
+    Highcharts.chart('container', {
+        chart: {
+            type: 'pie'
+        },
+        title: {
+            text: '겹쳐진 파이 차트 예시'
+        },
+        series: [
+            {
+                name: '바깥 차트',
+                size: '80%',  // 바깥 파이 차트 크기 설정
+                innerSize: '40%',  // 도넛 모양 설정
+                data: [
+                    { name: 'A', y: 40 },
+                    { name: 'B', y: 30 },
+                    { name: 'C', y: 20 },
+                    { name: 'D', y: 10 }
+                ]
+            },
+            {
+                name: '안쪽 차트',
+                size: '40%',  // 안쪽 파이 차트 크기 설정
+                data: [
+                    { name: 'E', y: 60 },
+                    { name: 'F', y: 30 },
+                    { name: 'G', y: 10 }
+                ]
+            }
+        ],
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}: {point.percentage:.1f} %'
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
