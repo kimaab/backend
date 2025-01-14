@@ -24,7 +24,7 @@ public class PointTransactionController {
 
     @PostMapping
     @Operation(summary = "새 포인트 거래 생성", description = "새 포인트 거래(적립/사용)를 생성합니다.")
-    public PointTransaction createTransaction(@RequestBody PointTransaction transaction) {
+    public PointTransaction createTransaction(@RequestBody PointTransaction transaction) throws Exception{
         pointTransactionService.createTransaction(transaction);
         return transaction;
     }
